@@ -1,0 +1,10 @@
+*~
+*.swp
+main.asm
+main.lk
+main.lst
+main.map
+main.mem
+main.rel
+main.rst
+main.sym
