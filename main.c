@@ -12,7 +12,11 @@
  * This is the time count for 1 state 
  */
 
+/* MACROS */
+
+#define WPM_BASE_TIME 60
 #define SPACE intra_duration_words()
+
 /* Function prototypes */
 
 void dot_duration(unsigned int n_times);
@@ -28,13 +32,22 @@ void timer_init(void);
 /* Global variables */
 
 volatile int d_l; //delay latch
-
+volatile unsigned int dot_duration_ms;
 
 /*****************************************************************************/
 
 void main() {
 
-   P1 = 0x00;
+  dot_duration_ms = WPM_BASE_TIME;
+
+  P1 = 0x00;
+
+  EA  = 1; // Enable all interrupts
+  EX0 = 1; // Enable int0
+  EX1 = 1; // Enable int1
+
+  IT0 = 1; // Edge triggered 
+  IT1 = 1; // Edge triggered
 
    timer_init();
 
@@ -207,7 +220,7 @@ void dot_duration(unsigned int n_times) {
       n = n_times;
    }
 
-   delay(60 * n); // 50 ms ~= 20 wpm
+   delay(dot_duration_ms * n);
 }
 
 void intra_duration_char(void) {
@@ -223,15 +236,15 @@ void intra_duration_words(void) {
 }
 
 void dih(void) {
-   P1 = 0xFF;
+   P1_0 = 1;
    dot_duration(1);
-   P1 = 0x00;
+   P1_0 = 0;
 }
 
 void dah(void) {
-   P1 = 0xFF;
+   P1_0 = 1;
    dot_duration(3);
-   P1 = 0x00;
+   P1_0 = 0;
 }
 
 void delay(int n) {
@@ -267,4 +280,16 @@ void timer_init(void) {
 
 void timer_0 (void) __interrupt 1 __using 0 {  
    d_l=0;   //1KHz interrupt happened so disable the latch to proceed
+}
+
+void external_int_0 (void) __interrupt 0 __using 0 {
+  if (dot_duration_ms > 5) {
+    dot_duration_ms -= 5;  
+  }
+}
+
+void external_int_1 (void) __interrupt 2 __using 0 {
+  if (dot_duration_ms < 250) {
+    dot_duration_ms += 5;  
+  }
 }
