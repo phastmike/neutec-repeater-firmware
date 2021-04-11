@@ -1,24 +1,27 @@
 /* -*- Mode: C; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab : */
 
+#include "def.h"
+#include "morse_macros.h"
 #include <mcs51/at89x051.h>
 
 /* Using 4 MHz XTAL
  *
  * 4 MHz / 12 cycles/op = 0,333 MIPS => 3 us/instruction
  *
- * 333 * 0.3 = 999 uS = 1ms (333 = 0x1D4 =~ 0xFFFF - 0x01D4 = 0xFEB2
+ * 333 * 3us = 999 uS = 1ms (333 = 0x1D4 =~ 0xFFFF - 0x01D4 = 0xFEB2)
  *
  * This is the time count for 1 state 
  */
 
 /* MACROS */
 
-#define WPM_BASE_TIME 60
+#define WPM_BASE_TIME 50
 #define SPACE intra_duration_words()
 
 /* Function prototypes */
 
+void id_morse(void);
 void dot_duration(unsigned int n_times);
 void intra_duration_char(void);
 void intra_duration_chars(void);
@@ -43,173 +46,189 @@ void main() {
   P1 = 0x00;
 
   EA  = 1; // Enable all interrupts
-  EX0 = 1; // Enable int0
-  EX1 = 1; // Enable int1
+  //EX0 = 1; // Enable int0
+  //EX1 = 1; // Enable int1
 
-  IT0 = 1; // Edge triggered 
-  IT1 = 1; // Edge triggered
+  //IT0 = 1; // Edge triggered 
+  //IT1 = 1; // Edge triggered
 
-   timer_init();
+  timer_init();
 
-   while(1) {
-      
-      SPACE; 
-      
-      // de
-      dah();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
+  while(1) {
+    id_morse();
 
-      intra_duration_chars();
+    delay(10000);
 
-      dih();
-
-      SPACE;
-
-      // CQ0UGMR
-      dah();
-      intra_duration_char();
-      dih();   
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dih();   
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-
-      intra_duration_chars();
-
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dih();
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-
-      dih();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dih();
-
-      SPACE;
-
-      // QTH
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-
-      dah();
-
-      intra_duration_chars();
-
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
-
-      SPACE;
-
-      dih();
-      intra_duration_char();
-      dih();
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dih();
-
-      intra_duration_chars();
-
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dih();
-
-      intra_duration_chars();
-
-      dih();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-   
-      dih();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dah();
-
-      intra_duration_chars();
-
-      dah();
-      intra_duration_char();
-      dih();
-      intra_duration_char();
-      dah();
-   }
+    while (P3_2 != 1) {
+    
+    }
+  }
 }
 
 /*****************************************************************************/
+
+void string2morse (char *text) {
+  char *t;
+
+  if (text == NULL) return;
+
+  for (t = text; *t != '\0'; t++) {
+    switch (*t) {
+      case 'a':
+      case 'A':
+        MORSE_A;
+        break;
+      case 'b':
+      case 'B':
+        MORSE_B;
+        break;
+      case 'c':
+      case 'C':
+        MORSE_C;
+        break;
+      case 'd':
+      case 'D':
+        MORSE_D;
+        break;
+      case 'e':
+      case 'E':
+        MORSE_E;
+        break;
+      case 'f':
+      case 'F':
+        MORSE_F;
+        break;
+      case 'g':
+      case 'G':
+        MORSE_G;
+        break;
+      case 'h':
+      case 'H':
+        MORSE_H;
+        break;
+      case 'i':
+      case 'I':
+        MORSE_I;
+        break;
+      case 'j':
+      case 'J':
+        MORSE_J;
+        break;
+      case 'k':
+      case 'K':
+        MORSE_K;
+        break;
+      case 'l':
+      case 'L':
+        MORSE_L;
+        break;
+      case 'm':
+      case 'M':
+        MORSE_M;
+        break;
+      case 'n':
+      case 'N':
+        MORSE_N;
+        break;
+      case 'o':
+      case 'O':
+        MORSE_O;
+        break;
+      case 'p':
+      case 'P':
+        MORSE_P;
+        break;
+      case 'q':
+      case 'Q':
+        MORSE_Q;
+        break;
+      case 'r':
+      case 'R':
+        MORSE_R;
+        break;
+      case 's':
+      case 'S':
+        MORSE_S;
+        break;
+      case 't':
+      case 'T':
+        MORSE_T;
+        break;
+      case 'u':
+      case 'U':
+        MORSE_U;
+        break;
+      case 'v':
+      case 'V':
+        MORSE_V;
+        break;
+      case 'w':
+      case 'W':
+        MORSE_W;
+        break;
+      case 'x':
+      case 'X':
+        MORSE_X;
+        break;
+      case 'y':
+      case 'Y':
+        MORSE_Y;
+        break;
+      case 'z':
+      case 'Z':
+        MORSE_Z;
+        break;
+      case '1':
+        MORSE_1;
+        break;
+      case '2':
+        MORSE_2;
+        break;
+      case '3':
+        MORSE_3;
+        break;
+      case '4':
+        MORSE_4;
+        break;
+      case '5':
+        MORSE_5;
+        break;
+      case '6':
+        MORSE_6;
+        break;
+      case '7':
+        MORSE_7;
+        break;
+      case '8':
+        MORSE_8;
+        break;
+      case '9':
+        MORSE_9;
+        break;
+      case '0':
+        MORSE_0;
+        break;
+      case ' ':
+        SPACE;
+        break;
+      default:
+        MORSE_QUESTION_MARK;
+        break;
+    }
+
+    if (*t != ' ') {
+      if (*(t + 1) != ' ') {
+        intra_duration_chars();
+      }
+    }
+
+  }
+}
+
+void id_morse(void) {
+ string2morse("ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\0"); 
+}
+
 
 void dot_duration(unsigned int n_times) {
    int n;
@@ -282,6 +301,7 @@ void timer_0 (void) __interrupt 1 __using 0 {
    d_l=0;   //1KHz interrupt happened so disable the latch to proceed
 }
 
+/*
 void external_int_0 (void) __interrupt 0 __using 0 {
   if (dot_duration_ms > 5) {
     dot_duration_ms -= 5;  
@@ -293,3 +313,4 @@ void external_int_1 (void) __interrupt 2 __using 0 {
     dot_duration_ms += 5;  
   }
 }
+*/
