@@ -1,19 +1,39 @@
 /* -*- Mode: C; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab : */
 
+/*
+ * MORSE MACROS
+ * Depend on the functions within the macros!
+ *
+ * Syntax is simple, underscore preceeds the chars/number
+ * Special chars avoid chars for readability
+ *
+ * Define more macros as needed.
+ *
+ * Already defined:
+ * CHARS:
+ *    A..Z (_A thru _Z)
+ * NUMBERS:
+ *    0..9 (_0 thru _9)
+ * SPECIAL CHARS
+ *    SPACE (___)
+ *    QUESTION MARK (_x_)
+ *
+ */
+
 #ifndef _MORSE_MACROS_H
 #define _MORSE_MACROS_H
 
-//-----------------------------------------------------------------------------
-// A
-//-----------------------------------------------------------------------------
+/******************************************************************************
+ * MORSE CHARS
+ *****************************************************************************/
 
-#define MORSE_A \
+#define _A \
   dih(); \
   intra_duration_char(); \
   dah();
 
-#define MORSE_B \
+#define _B \
   dah(); \
   intra_duration_char(); \
   dih(); \
@@ -23,7 +43,7 @@
   dih(); \
   intra_duration_char();
 
-#define MORSE_C \
+#define _C \
   dah(); \
   intra_duration_char(); \
   dih(); \
@@ -32,17 +52,17 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_D \
+#define _D \
   dah(); \
   intra_duration_char(); \
   dih(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_E \
+#define _E \
   dih(); 
 
-#define MORSE_F \
+#define _F \
   dih(); \
   intra_duration_char(); \
   dih(); \
@@ -51,14 +71,14 @@
   intra_duration_char(); \
   dih(); \
 
-#define MORSE_G \
+#define _G \
   dah(); \
   intra_duration_char(); \
   dah(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_H \
+#define _H \
   dih(); \
   intra_duration_char(); \
   dih(); \
@@ -67,12 +87,12 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_I \
+#define _I \
   dih(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_J \
+#define _J \
   dih(); \
   intra_duration_char(); \
   dah(); \
@@ -81,14 +101,14 @@
   intra_duration_char(); \
   dah(); 
 
-#define MORSE_K \
+#define _K \
   dah(); \
   intra_duration_char(); \
   dih(); \
   intra_duration_char(); \
   dah();
 
-#define MORSE_L \
+#define _L \
   dih(); \
   intra_duration_char(); \
   dah(); \
@@ -97,165 +117,158 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_M \
+#define _M \
   dah(); \
   intra_duration_char(); \
   dah();
 
-#define MORSE_N \
+#define _N \
   dah(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_O \
+#define _O \
   dah(); \
   intra_duration_char(); \
   dah(); \
   intra_duration_char(); \
   dah();
 
-#define MORSE_P \
+#define _P \
   dih(); \
   intra_duration_char(); \
   dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dih();
-
-#define MORSE_Q \
-  dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_R \
-  dih(); \
   intra_duration_char(); \
   dah(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_S \
-  dih(); \
+#define _Q \
+  dah(); \
+  intra_duration_char(); \
+  dah(); \
   intra_duration_char(); \
   dih(); \
+  intra_duration_char(); \
+  dah();
+
+#define _R \
+  dih(); \
+  intra_duration_char(); \
+  dah(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_T \
-  dah();
-
-#define MORSE_U \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_V \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_W \
-  dih(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_X \
-  dah(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_Y \
-  dah(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_Z \
-  dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih();
-
-#define MORSE_1 \
-  dih(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_2 \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_3 \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_4 \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
-  dah();
-
-#define MORSE_5 \
-  dih(); \
-  intra_duration_char(); \
-  dih(); \
-  intra_duration_char(); \
+#define _S \
   dih(); \
   intra_duration_char(); \
   dih(); \
   intra_duration_char(); \
   dih();
 
-#define MORSE_6 \
+#define _T \
+  dah();
+
+#define _U \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah();
+
+#define _V \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah();
+
+#define _W \
+  dih(); \
+  intra_duration_char(); \
   dah(); \
+  intra_duration_char(); \
+  dah();
+
+#define _X \
+  dah(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah();
+
+#define _Y \
+  dah(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah();
+
+#define _Z \
+  dah(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih();
+
+/******************************************************************************
+ * MORSE NUMBERS
+ *****************************************************************************/
+
+#define _1 \
+  dih(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah();
+
+#define _2 \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah();
+
+#define _3 \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah(); \
+  intra_duration_char(); \
+  dah();
+
+#define _4 \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dah();
+
+#define _5 \
+  dih(); \
   intra_duration_char(); \
   dih(); \
   intra_duration_char(); \
@@ -265,7 +278,18 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_7 \
+#define _6 \
+  dah(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih(); \
+  intra_duration_char(); \
+  dih();
+
+#define _7 \
   dah(); \
   intra_duration_char(); \
   dah(); \
@@ -276,7 +300,7 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_8 \
+#define _8 \
   dah(); \
   intra_duration_char(); \
   dah(); \
@@ -287,7 +311,7 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_9 \
+#define _9 \
   dah(); \
   intra_duration_char(); \
   dah(); \
@@ -298,7 +322,7 @@
   intra_duration_char(); \
   dih();
 
-#define MORSE_0 \
+#define _0 \
   dah(); \
   intra_duration_char(); \
   dah(); \
@@ -309,7 +333,19 @@
   intra_duration_char(); \
   dah();
 
-#define MORSE_QUESTION_MARK \
+/******************************************************************************
+ * SPECIAL CHARS
+ *****************************************************************************/
+
+#define _ intra_duration_chars();
+
+/* SPACE */
+
+#define ___ intra_duration_words(); 
+
+/* QUESTION MARK */
+
+#define _x_ \
   dih(); \
   intra_duration_char(); \
   dih(); \
