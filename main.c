@@ -1,10 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab : */
 
-#include "def.h"
-#include "morse_macros.h"
-#include <mcs51/at89x051.h>
-
 /* Using 4 MHz XTAL
  *
  * 4 MHz / 12 cycles/op = 0,333 MIPS => 3 us/instruction
@@ -13,6 +9,11 @@
  *
  * This is the time count for 1 state 
  */
+
+#include "def.h"
+#include "hw_io.h"
+#include "morse_macros.h"
+#include <mcs51/at89x051.h>
 
 /* MACROS */
 
@@ -40,10 +41,12 @@ volatile unsigned int dot_duration_ms;
 /*****************************************************************************/
 
 void main() {
-
+  OUT_ToT_PTT = 1;
+  OUT_MORSE = 0;
+  OUT_ID_INHIBIT = 0;
+  OUT_VOICE_TRIGGER = 1;
+  
   dot_duration_ms = WPM_BASE_TIME;
-
-  P1_0 = 0x00;
 
   EA  = 1; // Enable all interrupts
   //EX0 = 1; // Enable int0
@@ -55,29 +58,57 @@ void main() {
   timer_init();
 
   while(1) {
-    id_morse();
 
-    delay_minutes(10);
 
-    while (P3_2 != 1) {
-    
+  // To measure on the oscilloscope
+  /*
+  while (1) {
+    OUT_MORSE = 0x1;
+    delay(4);
+    OUT_MORSE = 0x0;
+    delay(4);
+  }
+  */
+
+    OUT_ToT_PTT = 0;
+
+    if (IN_ID_TYPE) {
+      OUT_VOICE_TRIGGER = 0;
+      delay(10000);
+      OUT_VOICE_TRIGGER = 1;
+    } else {
+      id_morse();
     }
+
+    OUT_ToT_PTT = 1;
+
+    delay(10000);
+
+    while (IN_PTT != 1) {
+      if (!OUT_ID_INHIBIT) {
+        OUT_ID_INHIBIT = 1;
+      }
+      delay(100);
+    }
+
+    OUT_ID_INHIBIT = 0;
+    delay(500);
   }
 }
 
 /*****************************************************************************/
 
 void id_morse(void) {
- ___
- _D _ _E
- ___
- _C _ _Q _ _0 _ _U _ _G _ _M _ _R
-
- if (P1_6 == 0) {
   ___
-  _I _ _N _ _5 _ _1 _ _U _ _K
+  _D _ _E
+  ___
+  _C _ _Q _ _0 _ _U _ _G _ _M _ _R
+
+  if (IN_MORSE_LENGTH == 0) {
+   ___
+   _I _ _N _ _5 _ _1 _ _U _ _K
+  }
   ___ 
- }
 }
 
 
@@ -106,21 +137,21 @@ void intra_duration_words(void) {
 }
 
 void dih(void) {
-   P1_0 = 1;
+   OUT_MORSE = 1;
    dot_duration(1);
-   P1_0 = 0;
+   OUT_MORSE = 0;
 }
 
 void dah(void) {
-   P1_0 = 1;
+   OUT_MORSE = 1;
    dot_duration(3);
-   P1_0 = 0;
+   OUT_MORSE = 0;
 }
 
 void delay_minutes(unsigned int n) {
   int i;
   for (i = 0; i <= n - 1; i++) {
-    delay(60000);
+    delay(51500);
   }
 }
 
@@ -130,7 +161,7 @@ void delay(unsigned int n) {
    {
       d_l=1; //enable latch to lock till 1ms happens
       TH0=0xFE;  //Set the Preset value here before every timer 0 runs to get exact 1KHz interrupt
-      TL0=0xB2;
+      TL0=0xB3;
       TR0=1;   // Run timer 0
       while(d_l>0); //1KHz interrupt occured so move ahead
       TR0=0;   // Stop timer 0

@@ -1,0 +1,17 @@
+Start;
+Init;
+id:
+if (ID_TYPE) {
+  ID_VOICE;
+} else {
+  ID_MORSE;
+  if (LONG_ID?) {
+    ID_QTH_LOCATOR;
+  }
+}
+delay(10min);
+loop:
+if (PTT_ACTIVE) {
+  goto loop;
+} 
+goto id;
