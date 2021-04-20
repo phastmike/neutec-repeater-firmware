@@ -2,6 +2,8 @@ COMPILER = sdcc-sdcc
 
 PROGRAMMER = minipro
 
+SRC_PATH = src/
+
 FLAGS = -mmcs51\
 		  --iram-size 128 \
 		  --xram-size 0 \
@@ -15,8 +17,8 @@ FLAGS = -mmcs51\
 		  --model-small
 
 all:
-	$(COMPILER) -c morse.c $(FLAGS)			# Generates .rel file
-	$(COMPILER) main.c morse.rel $(FLAGS)
+	$(COMPILER) -c $(SRC_PATH)morse.c $(FLAGS)			# Generates .rel file
+	$(COMPILER) $(SRC_PATH)main.c morse.rel $(FLAGS)
 
 install:
 	$(PROGRAMMER) -p "at89c2051" -w main.ihx
