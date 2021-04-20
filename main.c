@@ -15,10 +15,6 @@
 #include "morse.h"
 #include <mcs51/at89x051.h>
 
-/* MACROS */
-
-//#define WPM_BASE_TIME 50
-
 /* Function prototypes */
 
 void id_morse(void);
@@ -40,9 +36,10 @@ void main() {
   OUT_ID_INHIBIT = 0;
   OUT_VOICE_TRIGGER = 1;
   
-  morse_init();
+  morse_init(0);
 
   EA  = 1; // Enable all interrupts
+
   //EX0 = 1; // Enable int0
   //EX1 = 1; // Enable int1
 
@@ -76,7 +73,7 @@ void main() {
 
     OUT_ToT_PTT = 1;
 
-    delay(10000);
+    delay(2000);
 
     while (IN_PTT != 1) {
       if (!OUT_ID_INHIBIT) {
@@ -87,6 +84,8 @@ void main() {
 
     OUT_ID_INHIBIT = 0;
     delay(500);
+
+    morse_wpm_increase();
   }
 }
 

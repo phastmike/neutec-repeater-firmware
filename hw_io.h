@@ -6,6 +6,9 @@
  *
  * Renaming IO ports for abstraction
  *
+ * NOTES:
+ * P1_0 an P1_1 need external pull-ups (10k) if used as normal GPIO
+ *
  */
 
 #ifndef _HW_IO_H
@@ -15,12 +18,12 @@
 
 /* PORT 1 */
 
-#define IN_PTT            P1_0
-#define OUT_MORSE				  P1_1
+#define IN_PTT            P1_0 /* May need pull up */
+#define OUT_MORSE				  P1_1 /* May need pull up */
 #define OUT_ID_INHIBIT    P1_2
 #define OUT_ToT_PTT			  P1_6
 #define OUT_VOICE_TRIGGER	P1_5
-#define IN_MORSE_LENGTH   P1_7  /* 1: Call + Locator, 0: Call */
+#define IN_MORSE_LENGTH   P1_7 /* 1: Call + Locator, 0: Call */
 
 /* PORT 3 */
 

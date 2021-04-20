@@ -4,6 +4,7 @@
 /*
  * MORSE Functions 
  * Depends on hw_io.h for port definitions
+ * Also Depends on external delay method/function. 
  * 
  * Could improve by removing hw_io.c dependency
  *
@@ -11,34 +12,58 @@
  */
 
 #include "hw_io.h"
+#include "morse.h"
 
-#define WPM_BASE_TIME 50
+#define DEFAULT_WPM   20  /* 24 WPM = 50ms */
 
-volatile unsigned int dot_duration_ms;
+unsigned int morse_wpm;
+unsigned int dot_duration_ms;
 
 /* Ugly */
 extern void delay(unsigned int n);  // Defined in main.c
 
-void dot_duration(unsigned int n_times);
+/*
+ *  Local/Private function prototypes
+ */
 
+static void dot_duration(unsigned int n_times);
 
-void morse_init(void) {
-  dot_duration_ms = WPM_BASE_TIME;
+/*
+ *  Public function prototypes
+ */
+
+void morse_init(unsigned int wpm) {
+  if (!wpm) {
+    morse_wpm_set(DEFAULT_WPM);
+  } else {
+    morse_wpm_set(wpm);
+  }
+}
+
+void morse_wpm_set(unsigned int wpm) {
+  if (wpm > 0 && wpm < 100) {
+    morse_wpm = wpm;
+    dot_duration_ms = (1200) / (wpm);
+  }
+}
+
+unsigned int morse_wpm_get(void) {
+  return morse_wpm;
 }
 
 void morse_wpm_decrease() {
-  if (dot_duration_ms > 5) {
-    dot_duration_ms -= 1;  
+  if (morse_wpm > 5) {
+    morse_wpm_set(morse_wpm - 1);
   }
 }
 
 void morse_wpm_increase() {
-  if (dot_duration_ms < 250) {
-    dot_duration_ms += 1;  
+  if (morse_wpm < 250) {
+    morse_wpm_set(morse_wpm + 1);
   }
 }
 
-void dot_duration(unsigned int n_times) {
+static void dot_duration(unsigned int n_times) {
    int n;
 
    if (!n_times) {

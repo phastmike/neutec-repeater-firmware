@@ -22,6 +22,7 @@ install:
 	$(PROGRAMMER) -p "at89c2051" -w main.ihx
 
 clean:
-	rm *~
-	rm *.rel
-	rm main.ihx
+	rm -f *~
+	rm -f main.ihx
+	rm -f *.asm *.hex *.rel
+	rm -f *.lk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.omf *.cdb *.hashes
