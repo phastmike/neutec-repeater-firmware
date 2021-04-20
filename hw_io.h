@@ -11,6 +11,8 @@
 #ifndef _HW_IO_H
 #define _HW_IO_H
 
+#include <mcs51/at89x051.h>
+
 /* PORT 1 */
 
 #define IN_PTT            P1_0

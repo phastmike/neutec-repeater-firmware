@@ -12,22 +12,16 @@
 
 #include "def.h"
 #include "hw_io.h"
-#include "morse_macros.h"
+#include "morse.h"
 #include <mcs51/at89x051.h>
 
 /* MACROS */
 
-#define WPM_BASE_TIME 50
+//#define WPM_BASE_TIME 50
 
 /* Function prototypes */
 
 void id_morse(void);
-void dot_duration(unsigned int n_times);
-void intra_duration_char(void);
-void intra_duration_chars(void);
-void intra_duration_words(void);
-void dih(void);
-void dah(void);
 void delay(unsigned int n);   //delay in milli seconds
 void delay_minutes(unsigned int n);   //delay in milli seconds
 void timer_init(void);
@@ -36,7 +30,7 @@ void timer_init(void);
 /* Global variables */
 
 volatile int d_l; //delay latch
-volatile unsigned int dot_duration_ms;
+//volatile unsigned int dot_duration_ms;
 
 /*****************************************************************************/
 
@@ -46,7 +40,7 @@ void main() {
   OUT_ID_INHIBIT = 0;
   OUT_VOICE_TRIGGER = 1;
   
-  dot_duration_ms = WPM_BASE_TIME;
+  morse_init();
 
   EA  = 1; // Enable all interrupts
   //EX0 = 1; // Enable int0
@@ -112,42 +106,6 @@ void id_morse(void) {
 }
 
 
-void dot_duration(unsigned int n_times) {
-   int n;
-
-   if (!n_times) {
-      n = 1;
-   } else {
-      n = n_times;
-   }
-
-   delay(dot_duration_ms * n);
-}
-
-void intra_duration_char(void) {
-   dot_duration(1);   
-}
-
-void intra_duration_chars(void) {
-   dot_duration(3);  
-}
-
-void intra_duration_words(void) {
-   dot_duration(7);   
-}
-
-void dih(void) {
-   OUT_MORSE = 1;
-   dot_duration(1);
-   OUT_MORSE = 0;
-}
-
-void dah(void) {
-   OUT_MORSE = 1;
-   dot_duration(3);
-   OUT_MORSE = 0;
-}
-
 void delay_minutes(unsigned int n) {
   int i;
   for (i = 0; i <= n - 1; i++) {
@@ -155,15 +113,22 @@ void delay_minutes(unsigned int n) {
   }
 }
 
+#define PRELOAD01  (65536 - (unsigned int) (OSC_FREQ / (OSC_PER_INST * 1020)))
+#define PRELOAD01H (PRELOAD01 / 256)
+#define PRELOAD01L (PRELOAD01 % 256)
+
+
 void delay(unsigned int n) {
    int i;
    for(i=0;i<=n-1;i++)   //interrupt 1KHz =1ms till your count is over. 1000 = 1000ms so 1000 interrupts should occur
    {
       d_l=1; //enable latch to lock till 1ms happens
-      TH0=0xFE;  //Set the Preset value here before every timer 0 runs to get exact 1KHz interrupt
-      TL0=0xB3;
-      TR0=1;   // Run timer 0
-      while(d_l>0); //1KHz interrupt occured so move ahead
+      TH0= PRELOAD01H;  //Set the Preset value here before every timer 0 runs to get exact 1KHz interrupt
+      TL0= PRELOAD01L;
+      TF0= 0; // needed?
+      TR0= 1;   // Run timer 0
+      //while(d_l>0); //1KHz interrupt occured so move ahead
+      while(!TF0);
       TR0=0;   // Stop timer 0
    }
 }
@@ -191,14 +156,10 @@ void timer_0 (void) __interrupt 1 __using 0 {
 }
 
 void external_int_0 (void) __interrupt 0 __using 0 {
-  if (dot_duration_ms > 5) {
-    dot_duration_ms -= 1;  
-  }
+  morse_wpm_decrease();
 }
 
 void external_int_1 (void) __interrupt 2 __using 0 {
-  if (dot_duration_ms < 250) {
-    dot_duration_ms += 1;  
-  }
+  morse_wpm_increase();
 }
 

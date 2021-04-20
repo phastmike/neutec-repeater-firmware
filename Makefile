@@ -15,7 +15,13 @@ FLAGS = -mmcs51\
 		  --model-small
 
 all:
-	$(COMPILER) main.c $(FLAGS)
+	$(COMPILER) -c morse.c $(FLAGS)			# Generates .rel file
+	$(COMPILER) main.c morse.rel $(FLAGS)
 
 install:
 	$(PROGRAMMER) -p "at89c2051" -w main.ihx
+
+clean:
+	rm *~
+	rm *.rel
+	rm main.ihx

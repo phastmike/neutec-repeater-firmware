@@ -30,14 +30,7 @@
 // Oscillator cycles per instruction
 //-----------------------------------------------------------------------------
 
-#define OSC_PER_INSTRUCTION (12)
-
-//-----------------------------------------------------------------------------
-// Instructions per second (Typically in Mega ~ MIPS)
-// Looses remainder!
-//-----------------------------------------------------------------------------
-
-#define CPU_IPS (OSC_FREQ / OSC_PER_INSTRUCTION)
+#define OSC_PER_INST (12)
 
 //-----------------------------------------------------------------------------
 

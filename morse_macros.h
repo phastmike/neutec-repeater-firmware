@@ -359,4 +359,4 @@
   dih();
   
 
-#endif
+#endif /* _MORSE_MACROS_H */
