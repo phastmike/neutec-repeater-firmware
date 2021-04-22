@@ -13,3 +13,4 @@
 *.cdb
 *.hashes
 *.mcu8051ide
+build/

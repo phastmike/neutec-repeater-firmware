@@ -3,6 +3,7 @@ COMPILER = sdcc-sdcc
 PROGRAMMER = minipro
 
 SRC_PATH = src/
+BUILD_PATH = build/
 
 FLAGS = -mmcs51\
 		  --iram-size 128 \
@@ -17,16 +18,15 @@ FLAGS = -mmcs51\
 		  --model-small
 
 all:
-	$(COMPILER) -c $(SRC_PATH)morse.c $(FLAGS)			# Generates .rel file
-	$(COMPILER) -c $(SRC_PATH)tests.c $(FLAGS)		# Generates .rel file
-	$(COMPILER) -c $(SRC_PATH)hw_timer0.c $(FLAGS)		# Generates .rel file
-	$(COMPILER) $(SRC_PATH)main.c morse.rel hw_timer0.rel tests.rel $(FLAGS)
+	mkdir -p $(BUILD_PATH)
+	$(COMPILER) -c $(SRC_PATH)morse.c -o $(BUILD_PATH)morse.rel $(FLAGS)		# Generates .rel file
+	$(COMPILER) -c $(SRC_PATH)tests.c -o $(BUILD_PATH)tests.rel $(FLAGS)		# Generates .rel file
+	$(COMPILER) -c $(SRC_PATH)hw_timer0.c -o $(BUILD_PATH)hw_timer0.rel $(FLAGS)	# Generates .rel file
+	$(COMPILER) $(SRC_PATH)main.c $(BUILD_PATH)morse.rel $(BUILD_PATH)hw_timer0.rel $(BUILD_PATH)tests.rel -o $(BUILD_PATH)main.ihx $(FLAGS)
 
 install:
-	$(PROGRAMMER) -p "at89c2051" -w main.ihx
+	$(PROGRAMMER) -p "at89c2051" -w $(BUILD_PATH)main.ihx
 
 clean:
-	rm -f *~
-	rm -f main.ihx
-	rm -f *.asm *.hex *.rel
-	rm -f *.lk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.omf *.cdb *.hashes
+	rm -f $(SRC_PATH)*~
+	rm -Rf $(BUILD_PATH)
