@@ -8,88 +8,93 @@
  * 333 * 3us = 999 uS = 1ms (333 = 0x1D4 =~ 0xFFFF - 0x01D4 = 0xFEB2)
  *
  * This is the time count for 1 state 
+ *
+ * @2021 CT1ENQ - José Miguel Fonte
  */
 
+#include "hw.h"
 #include "def.h"
+#include "tests.h"
 #include "hw_io.h"
 #include "morse.h"
+#include "hw_timer0.h"
 #include <mcs51/at89x051.h>
+
+#define TEST_MODE     0
+#define DEFAULT_WPM   20
 
 /* Function prototypes */
 
+void id_voice(void);
 void id_morse(void);
-void delay(unsigned int n);   //delay in milli seconds
-void delay_minutes(unsigned int n);   //delay in milli seconds
-void timer_init(void);
+void tx_repeater_id();
+void io_init_defaults(void);
+void wait_for_new_repeater_id(void);
+void wait_until_repeater_free_to_id(void);
 
-
-/* Global variables */
-
-volatile int d_l; //delay latch
-//volatile unsigned int dot_duration_ms;
-
-/*****************************************************************************/
+/* Main application entry point */
 
 void main() {
-  OUT_ToT_PTT = 1;
-  OUT_MORSE = 0;
-  OUT_ID_INHIBIT = 0;
-  OUT_VOICE_TRIGGER = 1;
-  
-  morse_init(0);
-
-  EA  = 1; // Enable all interrupts
-
-  //EX0 = 1; // Enable int0
-  //EX1 = 1; // Enable int1
-
-  //IT0 = 1; // Edge triggered 
-  //IT1 = 1; // Edge triggered
-
+  io_init_defaults();
+  HW_ENABLE_ALL_INTERRUPTS;
   timer_init();
+  morse_init(DEFAULT_WPM);
+
+  if_test_mode_run_tests();
 
   while(1) {
-
-
-  // To measure on the oscilloscope
-  /*
-  while (1) {
-    OUT_MORSE = 0x1;
-    delay(4);
-    OUT_MORSE = 0x0;
-    delay(4);
-  }
-  */
-
-    OUT_ToT_PTT = 0;
-
-    if (IN_ID_TYPE) {
-      OUT_VOICE_TRIGGER = 0;
-      delay(10000);
-      OUT_VOICE_TRIGGER = 1;
-    } else {
-      id_morse();
-    }
-
-    OUT_ToT_PTT = 1;
-
-    delay(2000);
-
-    while (IN_PTT != 1) {
-      if (!OUT_ID_INHIBIT) {
-        OUT_ID_INHIBIT = 1;
-      }
-      delay(100);
-    }
-
-    OUT_ID_INHIBIT = 0;
-    delay(500);
-
-    morse_wpm_increase();
+    tx_repeater_id();
+    wait_for_new_repeater_id();
+    wait_until_repeater_free_to_id();
   }
 }
 
 /*****************************************************************************/
+
+void io_init_defaults(void) {
+  /* P1 and P3 default as 0xFF */
+
+  OUT_ToT_PTT = 1;
+  OUT_MORSE = 0;
+  OUT_ID_INHIBIT = 0;
+  OUT_VOICE_TRIGGER = 1;
+}
+
+void tx_repeater_id() {
+  OUT_ToT_PTT = 0;
+
+  if (IN_ID_TYPE) {
+    id_voice();
+  } else {
+    id_morse();
+  }
+
+  OUT_ToT_PTT = 1;
+}
+
+void wait_for_new_repeater_id(void) {
+  //delay(2000);
+  delay_minutes(1);
+}
+
+void wait_until_repeater_free_to_id(void) {
+  if (IN_PTT != 1) {
+    OUT_ID_INHIBIT = 1;
+
+    while (IN_PTT != 1) {
+      delay(100);
+    }
+    
+    OUT_ID_INHIBIT = 0;
+    delay(500);
+  }
+}
+
+void id_voice(void) {
+  OUT_VOICE_TRIGGER = 0;
+  delay(10000);
+  OUT_VOICE_TRIGGER = 1;
+}
 
 void id_morse(void) {
   ___
@@ -104,61 +109,4 @@ void id_morse(void) {
   ___ 
 }
 
-
-void delay_minutes(unsigned int n) {
-  int i;
-  for (i = 0; i <= n - 1; i++) {
-    delay(51500);
-  }
-}
-
-#define PRELOAD01  (65536 - (unsigned int) (OSC_FREQ / (OSC_PER_INST * 1020)))
-#define PRELOAD01H (PRELOAD01 / 256)
-#define PRELOAD01L (PRELOAD01 % 256)
-
-
-void delay(unsigned int n) {
-   int i;
-   for(i=0;i<=n-1;i++)   //interrupt 1KHz =1ms till your count is over. 1000 = 1000ms so 1000 interrupts should occur
-   {
-      d_l=1; //enable latch to lock till 1ms happens
-      TH0= PRELOAD01H;  //Set the Preset value here before every timer 0 runs to get exact 1KHz interrupt
-      TL0= PRELOAD01L;
-      TF0= 0; // needed?
-      TR0= 1;   // Run timer 0
-      //while(d_l>0); //1KHz interrupt occured so move ahead
-      while(!TF0);
-      TR0=0;   // Stop timer 0
-   }
-}
-
-void timer_init(void) {
-   /////////////////////////////SET UP TO CONFIGURE DELAY///////////////////
-   
-   //configure timer 0 interrupt 16bit:
-
-   // Timer 0 select, 16 bit mode
-   TMOD=0X01;
-   // Enable Timer 0 Interrupt
-   ET0=1;
-   // High priority for timer 0
-   PT0=1;
-   //Global Interrupts Enable
-   EA=1;
-}
-
-
-//timer 0 interrupt routine
-
-void timer_0 (void) __interrupt 1 __using 0 {  
-   d_l=0;   //1KHz interrupt happened so disable the latch to proceed
-}
-
-void external_int_0 (void) __interrupt 0 __using 0 {
-  morse_wpm_decrease();
-}
-
-void external_int_1 (void) __interrupt 2 __using 0 {
-  morse_wpm_increase();
-}
 

@@ -19,6 +19,7 @@
  *    SPACE (___)
  *    QUESTION MARK (_x_)
  *
+ * @2021 CT1ENQ - José Miguel Fonte
  */
 
 #ifndef _MORSE_MACROS_H

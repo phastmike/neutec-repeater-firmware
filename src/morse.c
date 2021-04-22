@@ -8,7 +8,7 @@
  * 
  * Could improve by removing hw_io.c dependency
  *
- * José Miguel Fonte @2021
+ * @2021 CT1ENQ - José Miguel Fonte
  */
 
 #include "hw_io.h"

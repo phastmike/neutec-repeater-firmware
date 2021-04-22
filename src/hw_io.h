@@ -9,6 +9,8 @@
  * NOTES:
  * P1_0 an P1_1 need external pull-ups (10k) if used as normal GPIO
  *
+ *
+ * @2021 CT1ENQ - José Miguel Fonte
  */
 
 #ifndef _HW_IO_H

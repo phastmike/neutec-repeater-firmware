@@ -18,7 +18,9 @@ FLAGS = -mmcs51\
 
 all:
 	$(COMPILER) -c $(SRC_PATH)morse.c $(FLAGS)			# Generates .rel file
-	$(COMPILER) $(SRC_PATH)main.c morse.rel $(FLAGS)
+	$(COMPILER) -c $(SRC_PATH)tests.c $(FLAGS)		# Generates .rel file
+	$(COMPILER) -c $(SRC_PATH)hw_timer0.c $(FLAGS)		# Generates .rel file
+	$(COMPILER) $(SRC_PATH)main.c morse.rel hw_timer0.rel tests.rel $(FLAGS)
 
 install:
 	$(PROGRAMMER) -p "at89c2051" -w main.ihx

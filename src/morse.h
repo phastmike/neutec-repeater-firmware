@@ -7,7 +7,7 @@
  * 
  * Could improve by removing hw_io.c dependency
  *
- * José Miguel Fonte @2021
+ * @2021 CT1ENQ - José Miguel Fonte
  */
 
 #ifndef _MORSE_H
