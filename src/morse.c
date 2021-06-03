@@ -20,7 +20,7 @@ unsigned int morse_wpm;
 unsigned int dot_duration_ms;
 
 /* Ugly */
-extern void delay(unsigned int n);  // Defined in main.c
+extern void delay_ms(unsigned int n);  // Defined in main.c
 
 /*
  *  Local/Private function prototypes
@@ -72,7 +72,7 @@ static void dot_duration(unsigned int n_times) {
       n = n_times;
    }
 
-   delay((dot_duration_ms * n));
+   delay_ms((dot_duration_ms * n));
 }
 
 void intra_duration_char(void) {

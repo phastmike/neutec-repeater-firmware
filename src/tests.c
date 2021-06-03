@@ -20,9 +20,9 @@
 void test_out_morse_onoff_ms_blocking(unsigned int ms) {
   while (1) {
     OUT_MORSE = 0x1;
-    delay(ms);
+    delay_ms(ms);
     OUT_MORSE = 0x0;
-    delay(ms);
+    delay_ms(ms);
   }
 }
 

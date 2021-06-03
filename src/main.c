@@ -37,7 +37,7 @@ void wait_until_repeater_free_to_id(void);
 void main() {
   io_init_defaults();
   HW_ENABLE_ALL_INTERRUPTS;
-  timer_init();
+  timer0_init();
   morse_init(DEFAULT_WPM);
 
   if_test_mode_run_tests();
@@ -57,7 +57,7 @@ void io_init_defaults(void) {
   OUT_ToT_PTT = 1;
   OUT_MORSE = 0;
   OUT_ID_INHIBIT = 0;
-  OUT_VOICE_TRIGGER = 1;
+  OUT_VOICE_TRIGGER = 0;
 }
 
 void tx_repeater_id() {
@@ -73,8 +73,8 @@ void tx_repeater_id() {
 }
 
 void wait_for_new_repeater_id(void) {
-  //delay(2000);
-  delay_minutes(1);
+  delay_ms(5000);
+  //delay_minutes(1);
 }
 
 void wait_until_repeater_free_to_id(void) {
@@ -82,18 +82,18 @@ void wait_until_repeater_free_to_id(void) {
     OUT_ID_INHIBIT = 1;
 
     while (IN_PTT != 1) {
-      delay(100);
+      delay_ms(100);
     }
     
     OUT_ID_INHIBIT = 0;
-    delay(500);
+    delay_ms(500);
   }
 }
 
 void id_voice(void) {
-  OUT_VOICE_TRIGGER = 0;
-  delay(10000);
   OUT_VOICE_TRIGGER = 1;
+  delay_ms(13000);
+  OUT_VOICE_TRIGGER = 0;
 }
 
 void id_morse(void) {

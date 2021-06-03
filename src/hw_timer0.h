@@ -13,9 +13,9 @@
 #ifndef _HW_TIMER0_H
 #define _HW_TIMER0_H
 
-void timer_init(void);
+void timer0_init(void);
 
-void delay(unsigned int n);   //delay in milli seconds
+void delay_ms(unsigned int n);        //delay in milli seconds
 void delay_minutes(unsigned int n);   //delay in milli seconds
 
 #endif /* HW_TIMER0_H */
