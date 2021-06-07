@@ -80,6 +80,7 @@ void tx_repeater_id() {
 }
 
 void wait_for_new_repeater_id(void) {
+  // Tune for ~= 10 minutes
   delay_minutes(9);
   delay_ms(25000);
 }
