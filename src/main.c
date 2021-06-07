@@ -86,12 +86,28 @@ void wait_for_new_repeater_id(void) {
 }
 
 void wait_until_repeater_free_to_id(void) {
+  /*
   if (IN_TONE_DET != 1) {
     while (IN_TONE_DET != 1) {
       delay_ms(2000);
     }
     delay_ms(2000);
   }
+  */
+  unsigned int c = 0;
+  unsigned int free_to_use = FALSE;
+  dih();
+  dih();
+  while (!free_to_use) {
+    dih();
+    for (c = 0; c <= 1000; c++) {
+      if (IN_TONE_DET != 0) {
+        break;
+      }
+      delay_ms(50);
+    }
+    free_to_use = TRUE;
+  } 
 }
 
 void id_voice(void) {
