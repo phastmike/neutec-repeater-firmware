@@ -20,16 +20,17 @@
 
 /* PORT 1 */
 
-#define IN_PTT            P1_0 /* May need pull up */
+//#define IN_PTT            P1_0 /* May need pull up */
 #define OUT_MORSE				  P1_1 /* May need pull up */
-#define OUT_ID_INHIBIT    P1_2
-#define OUT_ToT_PTT			  P1_6
+#define IN_MORSE_ID       P1_3
+#define IN_VOICE_ID       P1_4
 #define OUT_VOICE_TRIGGER	P1_5
-#define IN_MORSE_LENGTH   P1_7 /* 1: Call + Locator, 0: Call */
+#define OUT_ToT_PTT			  P1_6
+//#define IN_MORSE_LENGTH   P1_7 /* 1: Call + Locator, 0: Call */
 
 /* PORT 3 */
 
-#define IN_ID_TYPE			  P3_5
-#define IN_ID_TRIGGER		  P3_7
+#define IN_TONE_DET			  P3_1
+#define IN_RESET_BTN      P3_7
 
 #endif
