@@ -94,11 +94,9 @@ void wait_until_repeater_free_to_id(void) {
 }
 
 void id_voice(void) {
-  OUT_ToT_PTT = 0; // Remove, not needed.
   OUT_VOICE_TRIGGER = 0;
   delay_ms(1000);
   OUT_VOICE_TRIGGER = 1;
-  OUT_ToT_PTT = 1; // Remove, not needed.
 }
 
 void id_morse(void) {
