@@ -78,6 +78,7 @@ void wait_for_new_repeater_id(void) {
 }
 
 void wait_until_repeater_free_to_id(void) {
+  /*
   if (IN_PTT != 1) {
     OUT_ID_INHIBIT = 1;
 
@@ -88,6 +89,19 @@ void wait_until_repeater_free_to_id(void) {
     OUT_ID_INHIBIT = 0;
     delay_ms(500);
   }
+  */
+  unsigned int c = 0;
+  unsigned int free_to_use = FALSE;
+
+  while (!free_to_use) {
+    for (c = 0; c <= 160; c++) {
+      if (IN_PTT == 0) {
+        c = 0;
+      } 
+      delay_ms(50);
+    }
+    free_to_use = TRUE;
+  } 
 }
 
 void id_voice(void) {
