@@ -85,26 +85,22 @@ void wait_for_new_repeater_id(void) {
   delay_ms(25000);
 }
 
+/* 
+ * Wait for 8 seconds (160 * 50ms) without tone detection.
+ * If tone is detected, restart counting.
+ * Does not take microphone ptt in consideration.
+ */
+
 void wait_until_repeater_free_to_id(void) {
-  /*
-  if (IN_TONE_DET != 1) {
-    while (IN_TONE_DET != 1) {
-      delay_ms(2000);
-    }
-    delay_ms(2000);
-  }
-  */
   unsigned int c = 0;
   unsigned int free_to_use = FALSE;
-  dih();
-  dih();
+
   while (!free_to_use) {
-    dih();
-    for (c = 0; c <= 1000; c++) {
-      if (IN_TONE_DET != 0) {
-        break;
-      }
+    for (c = 0; c <= 160; c++) {
       delay_ms(50);
+      if (IN_TONE_DET == 0) {
+        c = 0;
+      }
     }
     free_to_use = TRUE;
   } 
