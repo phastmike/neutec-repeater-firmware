@@ -82,13 +82,14 @@ void tx_repeater_id() {
 void wait_for_new_repeater_id(void) {
   // Tune for ~= 10 minutes
   delay_minutes(9);
-  delay_ms(25000);
+  delay_ms(17500);
 }
 
 /* 
  * Wait for 8 seconds (160 * 50ms) without tone detection.
  * If tone is detected, restart counting.
  * Does not take microphone ptt in consideration.
+ * Sampling at 50ms.
  */
 
 void wait_until_repeater_free_to_id(void) {
