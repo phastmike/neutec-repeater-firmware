@@ -53,13 +53,18 @@ void main() {
 
 
 void tx_repeater_id() {
+  char id_type_defined = FALSE;
 
-  // need a loop here until we have id defined...
-
-  if (HWIO_IN_ID_VOICE) {
-    id_voice();
-  } else if (HWIO_IN_ID_MORSE) {
-    id_morse();
+  while (!id_type_defined) {
+    if (HWIO_IN_ID_VOICE) {
+      id_voice();
+      id_type_defined = TRUE;
+    } else if (HWIO_IN_ID_MORSE) {
+      id_morse();
+      id_type_defined = TRUE;
+    } else {
+      delay_ms (500);
+    }
   }
 }
 
@@ -84,11 +89,13 @@ void wait_until_repeater_free_to_id(void) {
 }
 
 void id_voice(void) {
-  // need to check waveform type
-
-  HWIO_OUT_ISD_PLAY = 1;
+  if (HWIO_IN_ISD_TYPE == 0) {
+    HWIO_OUT_ISD_PLAY = 1;
+  } else {
+    HWIO_OUT_ISD_PLAY = 0;
+  }
   delay_ms(1000);
-  HWIO_OUT_ISD_PLAY = 0;
+  HWIO_OUT_ISD_PLAY = !HWIO_OUT_ISD_PLAY;
 }
 
 void id_morse(void) {
