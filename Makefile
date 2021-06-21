@@ -26,7 +26,7 @@ all:
 	$(COMPILER) $(SRC_PATH)main.c $(BUILD_PATH)morse.rel $(BUILD_PATH)hw_timer0.rel $(BUILD_PATH)tests.rel $(BUILD_PATH)hw_io.rel -o $(BUILD_PATH)main.ihx $(FLAGS)
 
 install:
-	$(PROGRAMMER) -p "at89c2051" -w $(BUILD_PATH)main.ihx
+	$(PROGRAMMER) -p "AT89C2051@DIP20" -w $(BUILD_PATH)main.ihx
 
 clean:
 	rm -f $(SRC_PATH)*~
