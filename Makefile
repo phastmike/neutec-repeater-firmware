@@ -19,10 +19,11 @@ FLAGS = -mmcs51\
 
 all:
 	mkdir -p $(BUILD_PATH)
+	$(COMPILER) -c $(SRC_PATH)hw_io.c -o $(BUILD_PATH)hw_io.rel $(FLAGS)		# Generates .rel file
 	$(COMPILER) -c $(SRC_PATH)morse.c -o $(BUILD_PATH)morse.rel $(FLAGS)		# Generates .rel file
 	$(COMPILER) -c $(SRC_PATH)tests.c -o $(BUILD_PATH)tests.rel $(FLAGS)		# Generates .rel file
 	$(COMPILER) -c $(SRC_PATH)hw_timer0.c -o $(BUILD_PATH)hw_timer0.rel $(FLAGS)	# Generates .rel file
-	$(COMPILER) $(SRC_PATH)main.c $(BUILD_PATH)morse.rel $(BUILD_PATH)hw_timer0.rel $(BUILD_PATH)tests.rel -o $(BUILD_PATH)main.ihx $(FLAGS)
+	$(COMPILER) $(SRC_PATH)main.c $(BUILD_PATH)morse.rel $(BUILD_PATH)hw_timer0.rel $(BUILD_PATH)tests.rel $(BUILD_PATH)hw_io.rel -o $(BUILD_PATH)main.ihx $(FLAGS)
 
 install:
 	$(PROGRAMMER) -p "at89c2051" -w $(BUILD_PATH)main.ihx

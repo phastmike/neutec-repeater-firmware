@@ -27,6 +27,8 @@ extern void delay_ms(unsigned int n);  // Defined in main.c
  */
 
 static void dot_duration(unsigned int n_times);
+static void morse_out_on(void);
+static void morse_out_off(void);
 
 /*
  *  Public function prototypes
@@ -75,6 +77,14 @@ static void dot_duration(unsigned int n_times) {
    delay_ms((dot_duration_ms * n));
 }
 
+static void morse_out_on(void) {
+  HWIO_OUT_MORSE = 1;
+}
+
+static void morse_out_off(void) {
+  HWIO_OUT_MORSE = 0;
+}
+
 void intra_duration_char(void) {
    dot_duration(1);   
 }
@@ -88,14 +98,14 @@ void intra_duration_words(void) {
 }
 
 void dih(void) {
-   OUT_MORSE = 1;
-   dot_duration(1);
-   OUT_MORSE = 0;
+  morse_out_on(); 
+  dot_duration(1);
+  morse_out_off(); 
 }
 
 void dah(void) {
-   OUT_MORSE = 1;
-   dot_duration(3);
-   OUT_MORSE = 0;
+  morse_out_on(); 
+  dot_duration(3);
+  morse_out_off(); 
 }
 

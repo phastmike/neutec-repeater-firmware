@@ -19,9 +19,9 @@
 
 void test_out_morse_onoff_ms_blocking(unsigned int ms) {
   while (1) {
-    OUT_MORSE = 0x1;
+    HWIO_OUT_MORSE = 0x1;
     delay_ms(ms);
-    OUT_MORSE = 0x0;
+    HWIO_OUT_MORSE = 0x0;
     delay_ms(ms);
   }
 }

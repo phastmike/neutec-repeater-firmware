@@ -35,7 +35,7 @@ void wait_until_repeater_free_to_id(void);
 /* Main application entry point */
 
 void main() {
-  io_init_defaults();
+  hwio_init();
   HW_ENABLE_ALL_INTERRUPTS;
   timer0_init();
   morse_init(DEFAULT_WPM);
@@ -51,25 +51,16 @@ void main() {
 
 /*****************************************************************************/
 
-void io_init_defaults(void) {
-  /* P1 and P3 default as 0xFF */
-
-  OUT_ToT_PTT = 1;
-  OUT_MORSE = 0;
-  OUT_ID_INHIBIT = 0;
-  OUT_VOICE_TRIGGER = 0;
-}
 
 void tx_repeater_id() {
-  OUT_ToT_PTT = 0;
 
-  if (IN_ID_TYPE) {
+  // need a loop here until we have id defined...
+
+  if (HWIO_IN_ID_VOICE) {
     id_voice();
-  } else {
+  } else if (HWIO_IN_ID_MORSE) {
     id_morse();
   }
-
-  OUT_ToT_PTT = 1;
 }
 
 void wait_for_new_repeater_id(void) {
@@ -78,24 +69,12 @@ void wait_for_new_repeater_id(void) {
 }
 
 void wait_until_repeater_free_to_id(void) {
-  /*
-  if (IN_PTT != 1) {
-    OUT_ID_INHIBIT = 1;
-
-    while (IN_PTT != 1) {
-      delay_ms(100);
-    }
-    
-    OUT_ID_INHIBIT = 0;
-    delay_ms(500);
-  }
-  */
   unsigned int c = 0;
   unsigned int free_to_use = FALSE;
 
   while (!free_to_use) {
     for (c = 0; c <= 160; c++) {
-      if (IN_PTT == 0) {
+      if (HWIO_IN_TONE == 0) {
         c = 0;
       } 
       delay_ms(50);
@@ -105,22 +84,28 @@ void wait_until_repeater_free_to_id(void) {
 }
 
 void id_voice(void) {
-  OUT_VOICE_TRIGGER = 1;
-  delay_ms(13000);
-  OUT_VOICE_TRIGGER = 0;
+  // need to check waveform type
+
+  HWIO_OUT_ISD_PLAY = 1;
+  delay_ms(1000);
+  HWIO_OUT_ISD_PLAY = 0;
 }
 
 void id_morse(void) {
+  HWIO_OUT_ID_PTT = 0;
+
   ___
   _D _ _E
   ___
-  _C _ _Q _ _0 _ _U _ _G _ _M _ _R
-
-  if (IN_MORSE_LENGTH == 0) {
-   ___
-   _I _ _N _ _5 _ _1 _ _U _ _K
-  }
+  _C _ _Q _ _0 _ _V _ _B _ _R _ _G
   ___ 
+
+  /*
+  _I _ _N _ _5 _ _1 _ _T _ _J
+  ___
+  */
+
+  HWIO_OUT_ID_PTT = 1;
 }
 
 
