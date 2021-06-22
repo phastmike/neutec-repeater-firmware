@@ -8,6 +8,7 @@ void hwio_init(void) {
 
   HWIO_OUT_MORSE = 0;
   HWIO_OUT_ID_PTT = 1;
+  HWIO_OUT_LED = 0;
 
   if (HWIO_IN_ISD_TYPE == 1) {
     HWIO_OUT_ISD_PLAY = 0;

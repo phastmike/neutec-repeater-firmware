@@ -77,6 +77,7 @@ void wait_until_repeater_free_to_id(void) {
   unsigned int c = 0;
   unsigned int free_to_use = FALSE;
 
+  HWIO_OUT_LED = 1;
   while (!free_to_use) {
     for (c = 0; c <= 110; c++) {
       if (HWIO_IN_TONE == 0) {
@@ -86,6 +87,7 @@ void wait_until_repeater_free_to_id(void) {
     }
     free_to_use = TRUE;
   } 
+  HWIO_OUT_LED = 0;
 }
 
 void id_voice(void) {
