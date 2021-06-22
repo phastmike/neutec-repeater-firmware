@@ -63,7 +63,10 @@ void tx_repeater_id() {
       id_morse();
       id_type_defined = TRUE;
     } else {
-      delay_ms (500);
+      HWIO_OUT_LED = 1;
+      delay_ms (250);
+      HWIO_OUT_LED = 0;
+      delay_ms (250);
     }
   }
 }
