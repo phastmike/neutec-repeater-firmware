@@ -6,7 +6,12 @@
 void hwio_init(void) {
   /* P1 and P3 default as 0xFF */
 
-  HWIO_OUT_ISD_PLAY = 0;
   HWIO_OUT_MORSE = 0;
   HWIO_OUT_ID_PTT = 1;
+
+  if (HWIO_IN_ISD_TYPE == 1) {
+    HWIO_OUT_ISD_PLAY = 0;
+  } else {
+    HWIO_OUT_ISD_PLAY = 1;
+  }
 }

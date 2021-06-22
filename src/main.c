@@ -56,10 +56,10 @@ void tx_repeater_id() {
   char id_type_defined = FALSE;
 
   while (!id_type_defined) {
-    if (HWIO_IN_ID_VOICE) {
+    if (!HWIO_IN_ID_VOICE) {
       id_voice();
       id_type_defined = TRUE;
-    } else if (HWIO_IN_ID_MORSE) {
+    } else if (!HWIO_IN_ID_MORSE) {
       id_morse();
       id_type_defined = TRUE;
     } else {
@@ -78,7 +78,7 @@ void wait_until_repeater_free_to_id(void) {
   unsigned int free_to_use = FALSE;
 
   while (!free_to_use) {
-    for (c = 0; c <= 160; c++) {
+    for (c = 0; c <= 110; c++) {
       if (HWIO_IN_TONE == 0) {
         c = 0;
       } 
@@ -89,7 +89,7 @@ void wait_until_repeater_free_to_id(void) {
 }
 
 void id_voice(void) {
-  if (HWIO_IN_ISD_TYPE == 0) {
+  if (HWIO_IN_ISD_TYPE == 1) {
     HWIO_OUT_ISD_PLAY = 1;
   } else {
     HWIO_OUT_ISD_PLAY = 0;

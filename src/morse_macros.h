@@ -16,6 +16,7 @@
  * NUMBERS:
  *    0..9 (_0 thru _9)
  * SPECIAL CHARS
+ *    INTRA WORD SPACING (_)
  *    SPACE (___)
  *    QUESTION MARK (_x_)
  *

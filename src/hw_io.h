@@ -18,8 +18,10 @@
 
 #include <mcs51/at89x051.h>
 
-/* PORT 1 */
-/* P1_0 and P1_1 may need external pull up */
+/* PORT 1
+ * P1_0 and P1_1 may need external pull up
+ *
+ */
 
 #define HWIO_OUT_MORSE	  P1_1
 #define HWIO_IN_TONE      P1_3
@@ -27,12 +29,19 @@
 #define HWIO_OUT_ISD_PLAY	P1_5
 #define HWIO_OUT_ID_PTT  	P1_6
 
-/* PORT 3 */
+/*
+ * PORT 3 
+ *
+ */
 
 #define HWIO_OUT_LED      P3_0
 #define HWIO_IN_ID_MORSE  P3_4
 #define HWIO_IN_ID_VOICE  P3_5
 #define HWIO_IN_ISD_TYPE  P3_7
+
+/*
+ *
+ */
 
 void hwio_init(void);
 
