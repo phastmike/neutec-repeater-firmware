@@ -82,8 +82,8 @@ void wait_until_repeater_free_to_id(void) {
 
   HWIO_OUT_LED = 1;
   while (!free_to_use) {
-    for (c = 0; c <= 110; c++) {
-      if (HWIO_IN_TONE == 0) {
+    for (c = 0; c <= 10; c++) {
+      if (HWIO_IN_TONE == 0 || HWIO_IN_PTT == 0) {
         c = 0;
       } 
       delay_ms(50);
