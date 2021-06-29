@@ -72,7 +72,7 @@ void tx_repeater_id() {
 }
 
 void wait_for_new_repeater_id(void) {
-  delay_ms(5000);
+  delay_ms(20000);
   //delay_minutes(1);
 }
 
