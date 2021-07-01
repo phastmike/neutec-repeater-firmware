@@ -72,8 +72,8 @@ void tx_repeater_id() {
 }
 
 void wait_for_new_repeater_id(void) {
+  delay_minutes(9); 
   delay_ms(20000);
-  //delay_minutes(1);
 }
 
 void wait_until_repeater_free_to_id(void) {
@@ -82,7 +82,7 @@ void wait_until_repeater_free_to_id(void) {
 
   HWIO_OUT_LED = 1;
   while (!free_to_use) {
-    for (c = 0; c <= 10; c++) {
+    for (c = 0; c <= 100; c++) {
       if (HWIO_IN_TONE == 0 || HWIO_IN_PTT == 0) {
         c = 0;
       } 
