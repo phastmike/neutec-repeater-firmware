@@ -82,7 +82,7 @@ void tx_repeater_id() {
 void wait_for_new_repeater_id(void) {
   // Tune for ~= 10 minutes
   delay_minutes(9);
-  delay_ms(17500);
+  delay_ms(20500);
 }
 
 /* 
@@ -97,7 +97,7 @@ void wait_until_repeater_free_to_id(void) {
   unsigned int free_to_use = FALSE;
 
   while (!free_to_use) {
-    for (c = 0; c <= 160; c++) {
+    for (c = 0; c <= 100; c++) {
       delay_ms(50);
       if (IN_TONE_DET == 0) {
         c = 0;
