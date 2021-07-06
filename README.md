@@ -4,7 +4,7 @@ This repository contains the firmware for the microcontroller, AT89C2051, used
 in the Neutec Repeater Controller Board. 
 
 The `master` branch has the code for the VHF repeater (CQ0VBRG) while
-the `changesRUGuimaraes` branch has the code for the UHF Repeater (CQ0UGMR).
+the `ChangesRUGuimaraes` branch has the code for the UHF Repeater (CQ0UGMR).
 
 ## Differences
 The UHF repeater uses a 4 MHz xtal and the VHF repeater uses a 24 MHz xtal.
