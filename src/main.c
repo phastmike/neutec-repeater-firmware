@@ -1,14 +1,8 @@
 /* -*- Mode: C; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab : */
 
-/* Using 4 MHz XTAL
- *
- * 4 MHz / 12 cycles/op = 0,333 MIPS => 3 us/instruction
- *
- * 333 * 3us = 999 uS = 1ms (333 = 0x1D4 =~ 0xFFFF - 0x01D4 = 0xFEB2)
- *
- * This is the time count for 1 state 
- *
+/*
+ * Neutec Repeater Project
  * @2021 CT1ENQ - José Miguel Fonte
  */
 
