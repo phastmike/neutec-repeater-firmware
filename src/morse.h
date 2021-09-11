@@ -15,12 +15,11 @@
 
 #include "morse_macros.h"
 
-#define WPM_BASE_TIME 50
-
 void morse_init(unsigned int wpm);
 
-void morse_wpm_set(unsigned int wpm);
-unsigned int morse_wpm_get(void);
+void          morse_wpm_set(unsigned int wpm);
+unsigned int  morse_wpm_get(void);
+
 void morse_wpm_decrease();
 void morse_wpm_increase();
 

@@ -23,24 +23,33 @@
  *
  */
 
+#define HWIO_FREE_P1_0    P1_0  /* FREE */
 #define HWIO_OUT_MORSE	  P1_1
+#define HWIO_FREE_P1_2    P1_2  /* FREE */
 #define HWIO_IN_TONE      P1_3
 #define HWIO_IN_PTT       P1_4
 #define HWIO_OUT_ISD_PLAY	P1_5
 #define HWIO_OUT_ID_PTT  	P1_6
+#define HWIO_FREE_P1_7    P1_7  /* FREE */
 
 /*
  * PORT 3 
  *
+ * P3_6 not available
+ *
  */
 
 #define HWIO_OUT_LED      P3_0
+#define HWIO_FREE_P3_1    P3_1  /* FREE */
+#define HWIO_FREE_P3_2    P3_2  /* FREE */
+#define HWIO_FREE_P3_3    P3_3  /* FREE */
 #define HWIO_IN_ID_MORSE  P3_4
 #define HWIO_IN_ID_VOICE  P3_5
+/* P3_6 has no pin */
 #define HWIO_IN_ISD_TYPE  P3_7
 
 /*
- *
+ * Public Prototypes
  */
 
 void hwio_init(void);

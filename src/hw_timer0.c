@@ -9,8 +9,21 @@
  * @2021 CT1ENQ - José Miguel Fonte
  */
 
-#include "def.h"
 #include <mcs51/at89x051.h>
+
+//-----------------------------------------------------------------------------
+// Oscillator frequency in Hz
+//-----------------------------------------------------------------------------
+
+#define OSC_FREQ  (24000000UL)
+
+//-----------------------------------------------------------------------------
+// Oscillator cycles per instruction
+//-----------------------------------------------------------------------------
+
+#define OSC_PER_INST (12)
+
+//-----------------------------------------------------------------------------
 
 #define PRELOAD01  (65536 - (unsigned int) (OSC_FREQ / (OSC_PER_INST * 1020)))
 #define PRELOAD01H (PRELOAD01 / 256)
@@ -51,5 +64,5 @@ void delay_minutes(unsigned int n) {
 
 //timer 0 interrupt routine
 void timer_0 (void) __interrupt 1 __using 0 {  
-   d_l=0;   //1KHz interrupt happened so disable the latch to proceed
+   d_l=0;
 }

@@ -104,6 +104,7 @@ void dih(void) {
 }
 
 void dah(void) {
+  //morse_out_on(); 
   morse_out_on(); 
   dot_duration(3);
   morse_out_off(); 

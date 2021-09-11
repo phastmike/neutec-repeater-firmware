@@ -1,6 +1,13 @@
 /* -*- Mode: C; indent-tabs-mode: nil; c-basic-offset: 2; tab-width: 2 -*- */
 /* vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab : */
 
+/* 
+ * HARDWARE Input/Output
+ *
+ * @2021 CT1ENQ - José Miguel Fonte
+ *
+ */
+
 #include "hw_io.h"
 
 void hwio_init(void) {
