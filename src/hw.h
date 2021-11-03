@@ -12,7 +12,7 @@
 #define _HW_H
 
 #define HW_ENABLE_ALL_INTERRUPTS \
-	EA  = 1;
+  EA  = 1;
 #define HW_ENABLE_INT0 \
   EX0 = 1;
 #define HW_ENABLE_INT1 \
