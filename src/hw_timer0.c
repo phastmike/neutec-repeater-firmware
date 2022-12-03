@@ -41,7 +41,7 @@ void timer0_init(void) {
 void delay_ms(unsigned int n) {
    int i;
 
-   for(i = 0 ; i <= n-1 ; i++) {  //interrupt 1KHz =1ms till your count is over. 1000 = 1000ms so 1000 interrupts should occur
+   for(i = 0 ; i <= n-1 ; i++) {  //interrupt 1KHz=1ms till your count is over. 1000 = 1000ms so 1000 interrupts should occur
       d_l=1;                      //enable latch to lock till 1ms happens
       TH0= PRELOAD01H;            //Set the Preset value here before every timer 0 runs to get exact 1KHz interrupt
       TL0= PRELOAD01L;
